@@ -8,12 +8,11 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
         body {
             font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(to bottom right, #f9fafb, #e0e7ff);
         }
         .slide {
             min-height: 100vh;
@@ -59,19 +58,9 @@
             position: relative;
             overflow: hidden;
         }
-        #vanta-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.15;
-        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
-    <div id="vanta-bg"></div>
     <!-- Modal for Enlarged Images -->
     <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
         <div class="modal-container relative max-w-6xl max-h-screen overflow-auto">
@@ -211,4 +200,365 @@
                                 </tr>
                                 <tr>
                                     <td>Integrity Constraint</td>
-                                    <td>Rules ensuring data validity (key
+                                    <td>Rules ensuring data validity (key, referential, domain).</td>
+                                    <td>NOT NULL, CASCADE on delete</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide4" class="slide flex items-center justify-center bg-white px-6 py-20">
+            <div class="container mx-auto max-w-4xl" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">Relational Algebra: The Mathematical Foundation</h2>
+                <p class="text-lg text-gray-700 mb-6">
+                    Relational algebra provides a formal basis for querying relational databases, implemented practically in SQL.
+                </p>
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Select (σ)</h3>
+                        <p class="text-gray-700">Filters tuples based on a condition.</p>
+                        <p class="text-sm text-gray-600">Example: σ<sub>age&lt;21</sub>(Students)</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Project (π)</h3>
+                        <p class="text-gray-700">Selects specific attributes.</p>
+                        <p class="text-sm text-gray-600">Example: π<sub>name,gpa</sub>(Students)</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Join (⋈)</h3>
+                        <p class="text-gray-700">Combines relations based on a condition.</p>
+                        <p class="text-sm text-gray-600">Example: Students ⋈<sub>sid</sub> Enrolled</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Union (∪)</h3>
+                        <p class="text-gray-700">Combines tuples from compatible relations.</p>
+                        <p class="text-sm text-gray-600">Example: Students ∪ Graduates</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Difference (−)</h3>
+                        <p class="text-gray-700">Tuples in one relation but not another.</p>
+                        <p class="text-sm text-gray-600">Example: Students − Enrolled</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Rename (ρ)</h3>
+                        <p class="text-gray-700">Renames relations or attributes.</p>
+                        <p class="text-sm text-gray-600">Example: ρ<sub>StudentInfo</sub>(Students)</p>
+                    </div>
+                </div>
+                <div class="code-block p-6">
+                    <pre class="text-sm overflow-x-auto">
+-- SQL equivalent of relational algebra
+SELECT name, gpa
+FROM Students
+WHERE age < 21
+AND sid IN (SELECT sid FROM Enrolled WHERE grade = 'A');
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide5" class="slide flex items-center justify-center bg-gray-50 px-6 py-20">
+            <div class="container mx-auto max-w-4xl" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">SQL and the Relational Model</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="font-bold text-lg mb-4">Data Definition Language (DDL)</h3>
+                        <div class="code-block p-4 mb-4">
+                            <pre class="text-sm overflow-x-auto">
+CREATE TABLE Students (
+    sid CHAR(20) PRIMARY KEY,
+    name CHAR(20) NOT NULL,
+    age INTEGER CHECK (age > 0 AND age < 150),
+    gpa FLOAT
+);
+CREATE TABLE Enrolled (
+    sid CHAR(20),
+    cid CHAR(20),
+    grade CHAR(2),
+    FOREIGN KEY (sid) REFERENCES Students(sid)
+    ON DELETE CASCADE
+);
+                            </pre>
+                        </div>
+                        <p class="text-gray-700">Defines schema with constraints for data integrity.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-4">Data Manipulation Language (DML)</h3>
+                        <div class="code-block p-4 mb-4">
+                            <pre class="text-sm overflow-x-auto">
+SELECT S.name, E.grade
+FROM Students S
+JOIN Enrolled E ON S.sid = E.sid
+WHERE S.age < 21;
+                            </pre>
+                        </div>
+                        <p class="text-gray-700">Queries data using relational algebra concepts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide6" class="slide flex items-center justify-center bg-white px-6 py-20">
+            <div class="container mx-auto max-w-4xl" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">The Relational Model Today</h2>
+                <p class="text-lg text-gray-700 mb-6">
+                    As of October 10, 2025, the relational model remains the backbone of most databases, supporting ACID transactions and evolving with extensions like JSON and graph queries (SQL:2023).
+                </p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2 text-green-800">Current Applications</h3>
+                        <p class="text-gray-700">Powers enterprise systems (e.g., Oracle, PostgreSQL), data warehouses (e.g., Snowflake), and cloud databases.</p>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2 text-yellow-800">Future Trends</h3>
+                        <p class="text-gray-700">Integration with NoSQL for hybrid models, AI-driven query optimization, and vector search capabilities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide7" class="slide flex items-center justify-center bg-gradient-to-br from-indigo-600 to-blue-600 px-6 py-20">
+            <div class="container mx-auto max-w-4xl text-center text-white" data-aos="fade-up">
+                <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-2xl p-8 md:p-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Key Takeaways</h2>
+                    <div class="flex flex-col space-y-6 mb-8 text-left max-w-2xl mx-auto">
+                        <div class="flex items-start">
+                            <div class="bg-white bg-opacity-20 p-2 rounded-full mr-4">
+                                <i data-feather="zap" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl mb-2">Structured Data Management</h3>
+                                <p class="text-blue-100">Organizes data into relations with keys and constraints for integrity.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-white bg-opacity-20 p-2 rounded-full mr-4">
+                                <i data-feather="code" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl mb-2">Relational Algebra</h3>
+                                <p class="text-blue-100">Formal query operations underpin SQL, enabling powerful data retrieval.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-white bg-opacity-20 p-2 rounded-full mr-4">
+                                <i data-feather="globe" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl mb-2">Enduring Relevance</h3>
+                                <p class="text-blue-100">Foundation for modern RDBMS, evolving with new data types and queries.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white bg-opacity-20 p-6 rounded-lg mb-8">
+                        <p class="text-xl italic mb-4">"The relational model brought mathematical rigor to data management."</p>
+                        <p class="text-lg">How does it shape today’s database systems?</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="NoSQL-evolution.html" class="px-6 py-3 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center">
+                            <i data-feather="arrow-left" class="mr-2 w-5 h-5"></i>
+                            <span>Previous: NoSQL Evolution</span>
+                        </a>
+                        <a href="er-diagrams.html" class="px-6 py-3 border border-white text-white rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-300 flex items-center justify-center">
+                            <i data-feather="arrow-right" class="mr-2 w-5 h-5"></i>
+                            <span>Next: ER Diagrams</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide8" class="slide flex items-center justify-center bg-white px-6 py-20">
+            <div class="container mx-auto max-w-4xl" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">Resources</h2>
+                <div class="space-y-4">
+                    <a href="https://www.cs.cmu.edu/~christos/courses/dbms.S13/slides/03RelationalModel.pdf" class="flex items-center p-3 hover:bg-gray-50 rounded-lg transition">
+                        <div class="bg-gray-100 p-2 rounded-full mr-3">
+                            <i data-feather="book-open" class="text-gray-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">CMU DBMS Slides: Relational Model</h3>
+                            <p class="text-sm text-gray-500">cs.cmu.edu/~christos/courses/dbms.S13/slides/03RelationalModel.pdf</p>
+                        </div>
+                        <div class="ml-auto">
+                            <i data-feather="external-link" class="text-gray-400"></i>
+                        </div>
+                    </a>
+                    <a href="https://en.wikipedia.org/wiki/Relational_model" class="flex items-center p-3 hover:bg-gray-50 rounded-lg transition">
+                        <div class="bg-gray-100 p-2 rounded-full mr-3">
+                            <i data-feather="book-open" class="text-gray-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">Wikipedia: Relational Model</h3>
+                            <p class="text-sm text-gray-500">en.wikipedia.org/wiki/Relational_model</p>
+                        </div>
+                        <div class="ml-auto">
+                            <i data-feather="external-link" class="text-gray-400"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.w3schools.com/sql/sql_intro.asp" class="flex items-center p-3 hover:bg-gray-50 rounded-lg transition">
+                        <div class="bg-gray-100 p-2 rounded-full mr-3">
+                            <i data-feather="book-open" class="text-gray-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">W3Schools: SQL Introduction</h3>
+                            <p class="text-sm text-gray-500">w3schools.com/sql/sql_intro.asp</p>
+                        </div>
+                        <div class="ml-auto">
+                            <i data-feather="external-link" class="text-gray-400"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Fallback for AOS
+        try {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+        } catch (e) {
+            console.warn("AOS failed to load: ", e);
+        }
+
+        // Initialize Feather Icons
+        try {
+            feather.replace();
+        } catch (e) {
+            console.warn("Feather Icons failed to load: ", e);
+        }
+
+        // Mobile menu toggle
+        try {
+            document.getElementById('menu-toggle').addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                });
+            });
+        } catch (e) {
+            console.warn("Mobile menu functionality failed: ", e);
+        }
+
+        // Image enlargement and zoom functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                const enlargeables = document.querySelectorAll('.enlargeable');
+                const modal = document.getElementById('image-modal');
+                const modalImg = document.getElementById('modal-img');
+                const closeBtn = document.getElementById('close-modal');
+                const zoomInBtn = document.getElementById('zoom-in');
+                const zoomOutBtn = document.getElementById('zoom-out');
+                let zoomLevel = 1;
+                let isDragging = false;
+                let startX, startY, translateX = 0, translateY = 0;
+
+                enlargeables.forEach(img => {
+                    img.addEventListener('click', function() {
+                        modalImg.src = this.src;
+                        zoomLevel = 1;
+                        translateX = 0;
+                        translateY = 0;
+                        modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                        modal.classList.remove('hidden');
+                        document.body.style.overflow = 'hidden';
+                    });
+                });
+
+                zoomInBtn.addEventListener('click', function() {
+                    if (zoomLevel < 2) {
+                        zoomLevel += 0.1;
+                        modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                    }
+                });
+
+                zoomOutBtn.addEventListener('click', function() {
+                    if (zoomLevel > 0.5) {
+                        zoomLevel -= 0.1;
+                        modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                    }
+                });
+
+                modalImg.addEventListener('mousedown', function(e) {
+                    if (zoomLevel > 1) {
+                        isDragging = true;
+                        startX = e.clientX - translateX;
+                        startY = e.clientY - translateY;
+                        modalImg.classList.add('dragging');
+                    }
+                });
+
+                document.addEventListener('mousemove', function(e) {
+                    if (isDragging) {
+                        translateX = e.clientX - startX;
+                        translateY = e.clientY - startY;
+                        modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                    }
+                });
+
+                document.addEventListener('mouseup', function() {
+                    isDragging = false;
+                    modalImg.classList.remove('dragging');
+                });
+
+                modalImg.addEventListener('touchstart', function(e) {
+                    if (zoomLevel > 1) {
+                        isDragging = true;
+                        const touch = e.touches[0];
+                        startX = touch.clientX - translateX;
+                        startY = touch.clientY - translateY;
+                        modalImg.classList.add('dragging');
+                    }
+                });
+
+                document.addEventListener('touchmove', function(e) {
+                    if (isDragging) {
+                        const touch = e.touches[0];
+                        translateX = touch.clientX - startX;
+                        translateY = touch.clientY - startY;
+                        modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                    }
+                });
+
+                document.addEventListener('touchend', function() {
+                    isDragging = false;
+                    modalImg.classList.remove('dragging');
+                });
+
+                closeBtn.addEventListener('click', function() {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                });
+
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.classList.add('hidden');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                        modal.classList.add('hidden');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            } catch (e) {
+                console.warn("Image modal functionality failed: ", e);
+            }
+        });
+    </script>
+</body>
+</html>
