@@ -30,25 +30,10 @@
             height: 100%;
             background: #e5e7eb;
         }
-        #image-modal {
-            transition: opacity 0.3s ease;
-        }
-        #image-modal.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <div id="vanta-bg" class="fixed inset-0 -z-10"></div>
-
-    <!-- Modal for Enlarged Images -->
-    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="relative max-w-6xl max-h-screen overflow-auto">
-            <img id="modal-img" class="max-h-screen max-w-full mx-auto rounded-lg shadow-2xl" src="" alt="Enlarged Genealogy Chart">
-            <button id="close-modal" class="absolute -top-4 -right-4 bg-white rounded-full p-2 text-gray-800 text-xl font-bold hover:bg-gray-200 transition">×</button>
-        </div>
-    </div>
     
     <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4 py-6">
@@ -240,4 +225,362 @@
                 </div>
 
                 <div class="mb-12 relative pl-10 md:pl-0 md:pr-16 md:odd:pr-0 md:odd:pl-16">
-                    <div class="md:flex md:
+                    <div class="md:flex md:items-center">
+                        <div class="md:w-1/2 md:pr-8 md:text-right">
+                            <h4 class="font-bold text-lg text-gray-800">1986</h4>
+                        </div>
+                        <div class="hidden md:block md:w-8 flex-shrink-0 relative">
+                            <div class="h-4 w-4 rounded-full bg-blue-600 mx-auto"></div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-8 mt-4 md:mt-0">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h4 class="font-bold text-lg text-gray-800 mb-2">Postgres</h4>
+                                <p class="text-gray-600">Berkeley develops Postgres, precursor to PostgreSQL.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-12 relative pl-10 md:pl-16">
+                    <div class="md:flex md:items-center">
+                        <div class="md:w-1/2 md:pr-8 md:text-right">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h4 class="font-bold text-lg text-gray-800 mb-2">Microsoft SQL Server</h4>
+                                <p class="text-gray-600">Microsoft releases SQL Server, based on Sybase.</p>
+                            </div>
+                        </div>
+                        <div class="hidden md:block md:w-8 flex-shrink-0 relative">
+                            <div class="h-4 w-4 rounded-full bg-blue-600 mx-auto"></div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-8 mt-4 md:mt-0">
+                            <h4 class="font-bold text-lg text-gray-800">1989</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-12 relative pl-10 md:pl-0 md:pr-16 md:odd:pr-0 md:odd:pl-16">
+                    <div class="md:flex md:items-center">
+                        <div class="md:w-1/2 md:pr-8 md:text-right">
+                            <h4 class="font-bold text-lg text-gray-800">1995</h4>
+                        </div>
+                        <div class="hidden md:block md:w-8 flex-shrink-0 relative">
+                            <div class="h-4 w-4 rounded-full bg-blue-600 mx-auto"></div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-8 mt-4 md:mt-0">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h4 class="font-bold text-lg text-gray-800 mb-2">MySQL</h4>
+                                <p class="text-gray-600">Open-source MySQL is released.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-12 relative pl-10 md:pl-16">
+                    <div class="md:flex md:items-center">
+                        <div class="md:w-1/2 md:pr-8 md:text-right">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h4 class="font-bold text-lg text-gray-800 mb-2">PostgreSQL</h4>
+                                <p class="text-gray-600">PostgreSQL emerges from Postgres project.</p>
+                            </div>
+                        </div>
+                        <div class="hidden md:block md:w-8 flex-shrink-0 relative">
+                            <div class="h-4 w-4 rounded-full bg-blue-600 mx-auto"></div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-8 mt-4 md:mt-0">
+                            <h4 class="font-bold text-lg text-gray-800">1996</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-12 relative pl-10 md:pl-0 md:pr-16 md:odd:pr-0 md:odd:pl-16">
+                    <div class="md:flex md:items-center">
+                        <div class="md:w-1/2 md:pr-8 md:text-right">
+                            <h4 class="font-bold text-lg text-gray-800">2000</h4>
+                        </div>
+                        <div class="hidden md:block md:w-8 flex-shrink-0 relative">
+                            <div class="h-4 w-4 rounded-full bg-blue-600 mx-auto"></div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-8 mt-4 md:mt-0">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h4 class="font-bold text-lg text-gray-800 mb-2">SQLite</h4>
+                                <p class="text-gray-600">Embedded SQLite is released.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-12 relative pl-10 md:pl-16">
+                    <div class="md:flex md:items-center">
+                        <div class="md:w-1/2 md:pr-8 md:text-right">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h4 class="font-bold text-lg text-gray-800 mb-2">SAP HANA</h4>
+                                <p class="text-gray-600">SAP launches in-memory HANA.</p>
+                            </div>
+                        </div>
+                        <div class="hidden md:block md:w-8 flex-shrink-0 relative">
+                            <div class="h-4 w-4 rounded-full bg-blue-600 mx-auto"></div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-8 mt-4 md:mt-0">
+                            <h4 class="font-bold text-lg text-gray-800">2010</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-12 relative pl-10 md:pl-0 md:pr-16 md:odd:pr-0 md:odd:pl-16">
+                    <div class="md:flex md:items-center">
+                        <div class="md:w-1/2 md:pr-8 md:text-right">
+                            <h4 class="font-bold text-lg text-gray-800">2012</h4>
+                        </div>
+                        <div class="hidden md:block md:w-8 flex-shrink-0 relative">
+                            <div class="h-4 w-4 rounded-full bg-blue-600 mx-auto"></div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-8 mt-4 md:mt-0">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h4 class="font-bold text-lg text-gray-800 mb-2">Amazon Redshift</h4>
+                                <p class="text-gray-600">Cloud data warehouse Redshift launched.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-12 relative pl-10 md:pl-16">
+                    <div class="md:flex md:items-center">
+                        <div class="md:w-1/2 md:pr-8 md:text-right">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h4 class="font-bold text-lg text-gray-800 mb-2">CockroachDB</h4>
+                                <p class="text-gray-600">Distributed SQL database CockroachDB released.</p>
+                            </div>
+                        </div>
+                        <div class="hidden md:block md:w-8 flex-shrink-0 relative">
+                            <div class="h-4 w-4 rounded-full bg-blue-600 mx-auto"></div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-8 mt-4 md:mt-0">
+                            <h4 class="font-bold text-lg text-gray-800">2015</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-12 relative pl-10 md:pl-0 md:pr-16 md:odd:pr-0 md:odd:pl-16">
+                    <div class="md:flex md:items-center">
+                        <div class="md:w-1/2 md:pr-8 md:text-right">
+                            <h4 class="font-bold text-lg text-gray-800">2023</h4>
+                        </div>
+                        <div class="hidden md:block md:w-8 flex-shrink-0 relative">
+                            <div class="h-4 w-4 rounded-full bg-blue-600 mx-auto"></div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-8 mt-4 md:mt-0">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h4 class="font-bold text-lg text-gray-800 mb-2">SQL:2023 Standard</h4>
+                                <p class="text-gray-600">Introduces property graph queries in SQL.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-12 relative pl-10 md:pl-16">
+                    <div class="md:flex md:items-center">
+                        <div class="md:w-1/2 md:pr-8 md:text-right">
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h4 class="font-bold text-lg text-gray-800 mb-2">AI Integration in RDBMS</h4>
+                                <p class="text-gray-600">Widespread AI-driven query optimization and vector search in relational databases.</p>
+                            </div>
+                        </div>
+                        <div class="hidden md:block md:w-8 flex-shrink-0 relative">
+                            <div class="h-4 w-4 rounded-full bg-blue-600 mx-auto"></div>
+                        </div>
+                        <div class="md:w-1/2 md:pl-8 mt-4 md:mt-0">
+                            <h4 class="font-bold text-lg text-gray-800">2025</h4>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <section id="family-tree">
+            <h3 class="text-2xl font-bold text-gray-800 mb-8 text-center">Database Family Tree</h3>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+                <div class="p-6 md:p-8">
+                    <div class="family-tree flex flex-col items-center">
+                        <div class="flex space-x-8 mb-6">
+                            <div class="bg-blue-100 border-2 border-blue-300 p-4 rounded-lg shadow-sm w-64 text-center">
+                                <h4 class="font-bold text-blue-800">System R</h4>
+                                <p class="text-sm text-blue-600">IBM, 1974</p>
+                            </div>
+                            <div class="bg-green-100 border-2 border-green-300 p-4 rounded-lg shadow-sm w-64 text-center">
+                                <h4 class="font-bold text-green-800">Ingres</h4>
+                                <p class="text-sm text-green-600">Berkeley, 1974</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap justify-center gap-4 mb-6">
+                            <div class="bg-blue-50 border border-blue-200 p-3 rounded-lg shadow-sm w-56 text-center">
+                                <h4 class="font-bold text-blue-700">SQL/DS</h4>
+                                <p class="text-xs text-blue-500">IBM, 1981</p>
+                            </div>
+                            <div class="bg-blue-50 border border-blue-200 p-3 rounded-lg shadow-sm w-56 text-center">
+                                <h4 class="font-bold text-blue-700">DB2</h4>
+                                <p class="text-xs text-blue-500">IBM, 1983 → v13 2023</p>
+                            </div>
+                            <div class="bg-blue-50 border border-blue-200 p-3 rounded-lg shadow-sm w-56 text-center">
+                                <h4 class="font-bold text-blue-700">Oracle</h4>
+                                <p class="text-xs text-blue-500">1979 → v23ai 2024</p>
+                            </div>
+                            <div class="bg-green-50 border border-green-200 p-3 rounded-lg shadow-sm w-56 text-center">
+                                <h4 class="font-bold text-green-700">Postgres</h4>
+                                <p class="text-xs text-green-500">Berkeley, 1986</p>
+                            </div>
+                            <div class="bg-green-50 border border-green-200 p-3 rounded-lg shadow-sm w-56 text-center">
+                                <h4 class="font-bold text-green-700">Informix</h4>
+                                <p class="text-xs text-green-500">1983 → v14.10 2020</p>
+                            </div>
+                            <div class="bg-green-50 border border-green-200 p-3 rounded-lg shadow-sm w-56 text-center">
+                                <h4 class="font-bold text-green-700">Sybase</h4>
+                                <p class="text-xs text-green-500">1980s → v16.0 2020+</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap justify-center gap-3 mb-6">
+                            <div class="bg-blue-50 border border-blue-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-blue-700">DB2 UDB</h4>
+                                <p class="text-xs text-blue-500">1986 → v11.5 2019</p>
+                            </div>
+                            <div class="bg-blue-50 border border-blue-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-blue-700">SQL Server</h4>
+                                <p class="text-xs text-blue-500">1987 → v2022, preview v2025</p>
+                            </div>
+                            <div class="bg-blue-50 border border-blue-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-blue-700">Teradata</h4>
+                                <p class="text-xs text-blue-500">1979 → Vantage 2020+</p>
+                            </div>
+                            <div class="bg-green-50 border border-green-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-green-700">PostgreSQL</h4>
+                                <p class="text-xs text-green-500">1996 → v17 2024</p>
+                            </div>
+                            <div class="bg-green-50 border border-green-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-green-700">MySQL</h4>
+                                <p class="text-xs text-green-500">1995 → v8.4 2024</p>
+                            </div>
+                            <div class="bg-green-50 border border-green-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-green-700">Firebird</h4>
+                                <p class="text-xs text-green-500">2000 → v5 2023</p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap justify-center gap-3 mb-4">
+                            <div class="bg-purple-50 border border-purple-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-purple-700">SAP HANA</h4>
+                                <p class="text-xs text-purple-500">2010 → v2.0 SPS07 2023</p>
+                            </div>
+                            <div class="bg-purple-50 border border-purple-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-purple-700">Redshift</h4>
+                                <p class="text-xs text-purple-500">2012, Postgres-based</p>
+                            </div>
+                            <div class="bg-purple-50 border border-purple-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-purple-700">CockroachDB</h4>
+                                <p class="text-xs text-purple-500">2015, Postgres compatible</p>
+                            </div>
+                            <div class="bg-purple-50 border border-purple-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-purple-700">YugabyteDB</h4>
+                                <p class="text-xs text-purple-500">2017, Postgres compatible</p>
+                            </div>
+                            <div class="bg-purple-50 border border-purple-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-purple-700">AlloyDB</h4>
+                                <p class="text-xs text-purple-500">Google, 2022</p>
+                            </div>
+                            <div class="bg-purple-50 border border-purple-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-purple-700">SQLite</h4>
+                                <p class="text-xs text-purple-500">2000 → v3.46 2024</p>
+                            </div>
+                            <div class="bg-purple-50 border border-purple-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-purple-700">MariaDB</h4>
+                                <p class="text-xs text-purple-500">2009 → v11.0 2024</p>
+                            </div>
+                            <div class="bg-purple-50 border border-purple-100 p-2 rounded shadow-sm w-40 text-center">
+                                <h4 class="font-medium text-sm text-purple-700">Snowflake</h4>
+                                <p class="text-xs text-purple-500">2012, cloud warehouse</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mb-8">
+                <img src="https://hpi.de/oldsite/fileadmin/_processed_/8/3/csm_RDBMS_Genealogy_V6_76724b6c8f.jpg" alt="HPI RDBMS Genealogy Chart" class="mx-auto max-w-4xl rounded-lg shadow-md">
+                <p class="mt-2 text-gray-600">Source: Hasso-Plattner-Institut RDBMS Genealogy (Version 6)</p>
+            </div>
+        </section>
+
+        <section id="about" class="mb-20">
+            <h3 class="text-2xl font-bold text-gray-800 mb-8 text-center">About This Slide</h3>
+            <div class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
+                <p class="text-gray-600 mb-4">This slide visualizes the evolution and genealogy of relational database management systems (RDBMS). From the foundational work of E.F. Codd to modern cloud-native databases, explore how these technologies have shaped data management.</p>
+                <p class="text-gray-600 mb-4">Next: <a href="SQL-evolution.html" class="text-blue-600">Slide 2 - The Evolution of SQL</a></p>
+                <p class="text-gray-600">Last updated: October 10, 2025</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Database Dynasty Explorer</h4>
+                    <p class="text-gray-300">Exploring the royal lineages of database technologies through history.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Slides</h4>
+                    <ul class="space-y-2">
+                        <li><a href="DBMS-bloodlines.html" class="text-gray-300 hover:text-white">Slide 1: DBMS Bloodlines</a></li>
+                        <li><a href="SQL-evolution.html" class="text-gray-300 hover:text-white">Slide 2: SQL Evolution</a></li>
+                        <li><a href="NoSQL-evolution.html" class="text-gray-300 hover:text-white">Slide 3: NoSQL Evolution</a></li>
+                        <li><a href="relational-model.html" class="text-gray-300 hover:text-white">Slide 4: Relational Model</a></li>
+                        <li><a href="er-diagrams.html" class="text-gray-300 hover:text-white">Slide 5: ER Diagrams</a></li>
+                        <li><a href="normalization.html" class="text-gray-300 hover:text-white">Slide 6: Normalization</a></li>
+                        <li><a href="Introduction to SQL.html" class="text-gray-300 hover:text-white">Slide 7: SQL Intro</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#timeline" class="text-gray-300 hover:text-white">Timeline</a></li>
+                        <li><a href="#family-tree" class="text-gray-300 hover:text-white">Family Tree</a></li>
+                        <li><a href="https://hpi.de/naumann/projects/rdbms-genealogy.html" class="text-gray-300 hover:text-white" target="_blank">HPI Genealogy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://twitter.com" class="text-gray-300 hover:text-white"><i data-feather="twitter"></i></a>
+                        <a href="https://github.com/victordeman/Database-Dynasty-Explorer" class="text-gray-300 hover:text-white"><i data-feather="github"></i></a>
+                        <a href="https://linkedin.com" class="text-gray-300 hover:text-white"><i data-feather="linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2025 Database Dynasty Explorer. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        VANTA.NET({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x3b82f6,
+            backgroundColor: 0xf8fafc,
+            points: 10.00,
+            maxDistance: 20.00,
+            spacing: 17.00
+        });
+    </script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
