@@ -37,6 +37,9 @@
             opacity: 0;
             pointer-events: none;
         }
+        #modal-img {
+            transition: transform 0.2s ease;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -46,6 +49,14 @@
         <div class="relative max-w-6xl max-h-screen overflow-auto">
             <img id="modal-img" class="max-h-screen max-w-full mx-auto rounded-lg shadow-2xl" src="" alt="Enlarged Timeline Image">
             <button id="close-modal" class="absolute -top-4 -right-4 bg-white rounded-full p-2 text-gray-800 text-xl font-bold hover:bg-gray-200 transition">×</button>
+            <div class="absolute top-4 left-4 flex space-x-2">
+                <button id="zoom-in" class="bg-white rounded-full p-2 text-gray-800 hover:bg-gray-200 transition">
+                    <i data-feather="zoom-in" class="w-5 h-5"></i>
+                </button>
+                <button id="zoom-out" class="bg-white rounded-full p-2 text-gray-800 hover:bg-gray-200 transition">
+                    <i data-feather="zoom-out" class="w-5 h-5"></i>
+                </button>
+            </div>
         </div>
     </div>
    
@@ -348,7 +359,8 @@
                         <div class="md:w-1/2 md:pr-8 md:text-right">
                             <div class="bg-white p-6 rounded-lg shadow-md">
                                 <h4 class="font-bold text-lg text-gray-800 mb-2">CockroachDB</h4>
-                                <p class="text-gray-600">Distributed SQL database CockroachDB released.</p>
+                                <p class="text-gr
+ay-600">Distributed SQL database CockroachDB released.</p>
                             </div>
                         </div>
                         <div class="hidden md:block md:w-8 flex-shrink-0 relative">
@@ -574,19 +586,38 @@
     </script>
     <script>
         feather.replace();
-        // Image enlargement functionality
+        // Image enlargement and zoom functionality
         document.addEventListener('DOMContentLoaded', function() {
             const enlargeables = document.querySelectorAll('.enlargeable');
             const modal = document.getElementById('image-modal');
             const modalImg = document.getElementById('modal-img');
             const closeBtn = document.getElementById('close-modal');
+            const zoomInBtn = document.getElementById('zoom-in');
+            const zoomOutBtn = document.getElementById('zoom-out');
+            let zoomLevel = 1;
 
             enlargeables.forEach(img => {
                 img.addEventListener('click', function() {
                     modalImg.src = this.src;
+                    zoomLevel = 1; // Reset zoom level
+                    modalImg.style.transform = `scale(${zoomLevel})`;
                     modal.classList.remove('hidden');
                     document.body.style.overflow = 'hidden'; // Prevent scrolling
                 });
+            });
+
+            zoomInBtn.addEventListener('click', function() {
+                if (zoomLevel < 3) { // Max zoom: 3x
+                    zoomLevel += 0.1;
+                    modalImg.style.transform = `scale(${zoomLevel})`;
+                }
+            });
+
+            zoomOutBtn.addEventListener('click', function() {
+                if (zoomLevel > 0.5) { // Min zoom: 0.5x
+                    zoomLevel -= 0.1;
+                    modalImg.style.transform = `scale(${zoomLevel})`;
+                }
             });
 
             closeBtn.addEventListener('click', function() {
