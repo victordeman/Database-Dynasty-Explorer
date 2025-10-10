@@ -39,6 +39,15 @@
         }
         #modal-img {
             transition: transform 0.2s ease;
+            image-rendering: optimizeQuality; /* Improve rendering quality */
+            cursor: grab;
+        }
+        #modal-img.dragging {
+            cursor: grabbing;
+        }
+        .modal-container {
+            position: relative;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -46,7 +55,7 @@
     <div id="vanta-bg" class="fixed inset-0 -z-10"></div>
     <!-- Modal for Enlarged Images -->
     <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="relative max-w-6xl max-h-screen overflow-auto">
+        <div class="modal-container relative max-w-6xl max-h-screen overflow-auto">
             <img id="modal-img" class="max-h-screen max-w-full mx-auto rounded-lg shadow-2xl" src="" alt="Enlarged Timeline Image">
             <button id="close-modal" class="absolute -top-4 -right-4 bg-white rounded-full p-2 text-gray-800 text-xl font-bold hover:bg-gray-200 transition">×</button>
             <div class="absolute top-4 left-4 flex space-x-2">
@@ -359,8 +368,7 @@
                         <div class="md:w-1/2 md:pr-8 md:text-right">
                             <div class="bg-white p-6 rounded-lg shadow-md">
                                 <h4 class="font-bold text-lg text-gray-800 mb-2">CockroachDB</h4>
-                                <p class="text-gr
-ay-600">Distributed SQL database CockroachDB released.</p>
+                                <p class="text-gray-600">Distributed SQL database CockroachDB released.</p>
                             </div>
                         </div>
                         <div class="hidden md:block md:w-8 flex-shrink-0 relative">
@@ -595,29 +603,81 @@ ay-600">Distributed SQL database CockroachDB released.</p>
             const zoomInBtn = document.getElementById('zoom-in');
             const zoomOutBtn = document.getElementById('zoom-out');
             let zoomLevel = 1;
+            let isDragging = false;
+            let startX, startY, translateX = 0, translateY = 0;
 
             enlargeables.forEach(img => {
                 img.addEventListener('click', function() {
                     modalImg.src = this.src;
                     zoomLevel = 1; // Reset zoom level
-                    modalImg.style.transform = `scale(${zoomLevel})`;
+                    translateX = 0; // Reset translation
+                    translateY = 0;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
                     modal.classList.remove('hidden');
                     document.body.style.overflow = 'hidden'; // Prevent scrolling
                 });
             });
 
             zoomInBtn.addEventListener('click', function() {
-                if (zoomLevel < 3) { // Max zoom: 3x
+                if (zoomLevel < 2) { // Max zoom: 2x
                     zoomLevel += 0.1;
-                    modalImg.style.transform = `scale(${zoomLevel})`;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
                 }
             });
 
             zoomOutBtn.addEventListener('click', function() {
                 if (zoomLevel > 0.5) { // Min zoom: 0.5x
                     zoomLevel -= 0.1;
-                    modalImg.style.transform = `scale(${zoomLevel})`;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
                 }
+            });
+
+            // Panning functionality
+            modalImg.addEventListener('mousedown', function(e) {
+                if (zoomLevel > 1) { // Enable panning only when zoomed
+                    isDragging = true;
+                    startX = e.clientX - translateX;
+                    startY = e.clientY - translateY;
+                    modalImg.classList.add('dragging');
+                }
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    translateX = e.clientX - startX;
+                    translateY = e.clientY - startY;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                modalImg.classList.remove('dragging');
+            });
+
+            // Touch support for panning
+            modalImg.addEventListener('touchstart', function(e) {
+                if (zoomLevel > 1) {
+                    isDragging = true;
+                    const touch = e.touches[0];
+                    startX = touch.clientX - translateX;
+                    startY = touch.clientY - translateY;
+                    modalImg.classList.add('dragging');
+                }
+            });
+
+            document.addEventListener('touchmove', function(e) {
+                if (isDragging) {
+                    const touch = e.touches[0];
+                    translateX = touch.clientX - startX;
+                    translateY = touch.clientY - startY;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            document.addEventListener('touchend', function() {
+                isDragging = false;
+                modalImg.classList.remove('dragging');
             });
 
             closeBtn.addEventListener('click', function() {
