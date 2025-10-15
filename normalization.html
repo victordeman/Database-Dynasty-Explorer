@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Normalization - Slide 6</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .slide {
+            min-height: 100vh;
+            scroll-snap-align: start;
+        }
+        .code-block {
+            background-color: #1e293b;
+            color: #f8fafc;
+            border-radius: 0.5rem;
+            font-family: monospace;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f1f5f9;
+        }
+        #image-modal {
+            transition: opacity 0.3s ease;
+        }
+        #image-modal.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #modal-img {
+            transition: transform 0.2s ease;
+            image-rendering: optimizeQuality;
+            cursor: grab;
+        }
+        #modal-img.dragging {
+            cursor: grabbing;
+        }
+        .modal-container {
+            position: relative;
+            overflow: hidden;
+        }
+        #vanta-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <div id="vanta-bg"></div>
+    <!-- Modal for Enlarged Images -->
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="modal-container relative max-w-6xl max-h-screen overflow-auto">
+            <img id="modal-img" class="max-h-screen max-w-full mx-auto rounded-lg shadow-2xl" src="" alt="Enlarged Image">
+            <button id="close-modal" class="absolute -top-4 -right-4 bg-white rounded-full p-2 text-gray-800 text-xl font-bold hover:bg-gray-200 transition">×</button>
+            <div class="absolute top-4 left-4 flex space-x-2">
+                <button id="zoom-in" class="bg-white rounded-full p-2 text-gray-800 hover:bg-gray-200 transition">
+                    <i data-feather="zoom-in" class="w-5 h-5"></i>
+                </button>
+                <button id="zoom-out" class="bg-white rounded-full p-2 text-gray-800 hover:bg-gray-200 transition">
+                    <i data-feather="zoom-out" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-feather="database" class="text-blue-600"></i>
+                <span class="font-bold text-lg">Database Dynasty Explorer</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="DBMS-bloodlines.html" class="text-gray-600 hover:text-blue-600">Slide 1: DBMS Bloodlines</a>
+                <a href="SQL-evolution.html" class="text-gray-600 hover:text-blue-600">Slide 2: SQL Evolution</a>
+                <a href="NoSQL-evolution.html" class="text-gray-600 hover:text-blue-600">Slide 3: NoSQL Evolution</a>
+                <a href="relational-model.html" class="text-gray-600 hover:text-blue-600">Slide 4: Relational Model</a>
+                <a href="er-diagrams.html" class="text-gray-600 hover:text-blue-600">Slide 5: ER Diagrams</a>
+                <a href="normalization.html" class="text-blue-600 font-medium">Slide 6: Normalization</a>
+                <a href="Introduction to SQL.html" class="text-gray-600 hover:text-blue-600">Slide 7: SQL Intro</a>
+            </div>
+            <button class="md:hidden focus:outline-none" id="menu-toggle">
+                <i data-feather="menu"></i>
+            </button>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-6 py-3 border-t">
+            <div class="flex flex-col space-y-3">
+                <a href="DBMS-bloodlines.html" class="text-gray-600 hover:text-blue-600">Slide 1: DBMS Bloodlines</a>
+                <a href="SQL-evolution.html" class="text-gray-600 hover:text-blue-600">Slide 2: SQL Evolution</a>
+                <a href="NoSQL-evolution.html" class="text-gray-600 hover:text-blue-600">Slide 3: NoSQL Evolution</a>
+                <a href="relational-model.html" class="text-gray-600 hover:text-blue-600">Slide 4: Relational Model</a>
+                <a href="er-diagrams.html" class="text-gray-600 hover:text-blue-600">Slide 5: ER Diagrams</a>
+                <a href="normalization.html" class="text-blue-600 font-medium">Slide 6: Normalization</a>
+                <a href="Introduction to SQL.html" class="text-gray-600 hover:text-blue-600">Slide 7: SQL Intro</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Slide Content -->
+    <div class="snap-y snap-mandatory overflow-y-auto" style="height: 100vh;">
+        <section id="slide1" class="slide flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 px-6 py-20">
+            <div class="container mx-auto max-w-4xl text-center" data-aos="fade-up">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-800">Database Normalization</h1>
+                <p class="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
+                    We now introduce normal forms: Techniques to eliminate redundancy and ensure data integrity in relational databases.
+                </p>
+            </div>
+        </section>
+
+        <section id="slide2" class="slide flex items-center justify-center bg-white px-6 py-20">
+            <div class="container mx-auto max-w-4xl" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">What is Normalization?</h2>
+                <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-8">
+                    <p class="text-lg text-gray-700 mb-4">
+                        Normalization is a systematic process of organizing data in a relational database to minimize redundancy and dependency by dividing large tables into smaller, related tables while maintaining data integrity. Introduced by E.F. Codd, it follows a series of normal forms (NF) that progressively enforce stricter rules.
+                    </p>
+                    <p class="text-lg text-gray-700">
+                        Benefits: Reduces anomalies during insert/update/delete operations, saves storage, and improves query performance. However, over-normalization can lead to complex joins.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2 text-blue-800">Why Normalize?</h3>
+                        <ul class="text-gray-700 list-disc list-inside space-y-1">
+                            <li>Eliminate data redundancy</li>
+                            <li>Prevent update anomalies</li>
+                            <li>Ensure referential integrity</li>
+                        </ul>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2 text-purple-800">Normal Forms Hierarchy</h3>
+                        <p class="text-gray-700">1NF → 2NF → 3NF → BCNF → 4NF → 5NF (Higher forms address specific anomalies)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide3" class="slide flex items-center justify-center bg-gray-50 px-6 py-20">
+            <div class="container mx-auto max-w-4xl" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">First Normal Form (1NF)</h2>
+                <p class="text-lg text-gray-700 mb-6">Atomic values: Each cell contains a single value, no repeating groups, and a primary key.</p>
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Unnormalized Example</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>Student ID</th><th>Name</th><th>Courses</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>101</td><td>Alice</td><td>Math, CS101</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Issue: Multi-valued attribute in "Courses".</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">1NF Normalized</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>Student ID</th><th>Name</th><th>Course</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>101</td><td>Alice</td><td>Math</td></tr>
+                                    <tr><td>101</td><td>Alice</td><td>CS101</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Solution: Separate rows for each course; add primary key (composite if needed).</p>
+                    </div>
+                </div>
+                <div class="code-block p-4">
+                    <pre class="text-sm overflow-x-auto">
+-- SQL for 1NF
+CREATE TABLE StudentCourses (
+    StudentID INT,
+    Name VARCHAR(50),
+    Course VARCHAR(50),
+    PRIMARY KEY (StudentID, Course)
+);
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide4" class="slide flex items-center justify-center bg-white px-6 py-20">
+            <div class="container mx-auto max-w-4xl" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">Second Normal Form (2NF)</h2>
+                <p class="text-lg text-gray-700 mb-6">1NF + No partial dependencies: All non-key attributes fully depend on the entire primary key (eliminates partial dependency in composite keys).</p>
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <img class="enlargeable rounded-lg shadow-md w-full cursor-pointer hover:opacity-80 transition-opacity" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/2nf.svg/800px-2nf.svg.png" alt="2NF Example" title="Click to enlarge">
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Example Issue</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>OrderID</th><th>ProductID</th><th>ProductName</th><th>Quantity</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>1</td><td>101</td><td>Laptop</td><td>2</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Partial dependency: ProductName depends only on ProductID, not full key (OrderID, ProductID).</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="font-bold text-lg mb-2">2NF Solution</h3>
+                    <p class="text-gray-700">Split into Orders and Products tables.</p>
+                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                        <div class="code-block p-2">
+                            <pre class="text-xs">Products(ProductID, ProductName)</pre>
+                        </div>
+                        <div class="code-block p-2">
+                            <pre class="text-xs">Orders(OrderID, ProductID, Quantity)</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide5" class="slide flex items-center justify-center bg-gray-50 px-6 py-20">
+            <div class="container mx-auto max-w-4xl" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">Third Normal Form (3NF)</h2>
+                <p class="text-lg text-gray-700 mb-6">2NF + No transitive dependencies: Non-key attributes depend only on the primary key, not other non-key attributes.</p>
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Example Issue</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>StudentID</th><th>Name</th><th>Advisor</th><th>AdvisorOffice</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>101</td><td>Alice</td><td>Dr. Smith</td><td>Room 101</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Transitive: AdvisorOffice depends on Advisor, not directly on StudentID.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">3NF Solution</h3>
+                        <p class="text-gray-700">Split into Students and Advisors tables.</p>
+                        <div class="grid md:grid-cols-2 gap-4 mt-4">
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Advisors(Advisor, Office)</pre>
+                            </div>
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Students(StudentID, Name, Advisor)</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <img class="enlargeable rounded-lg shadow-md w-full cursor-pointer hover:opacity-80 transition-opacity" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/3nf.svg/800px-3nf.svg.png" alt="3NF Example" title="Click to enlarge">
+            </div>
+        </section>
+
+        <section id="slide6" class="slide flex items-center justify-center bg-white px-6 py-20">
+            <div class="container mx-auto max-w-4xl" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">Higher Normal Forms (BCNF, 4NF, 5NF)</h2>
+                <p class="text-lg text-gray-700 mb-6">Beyond 3NF for advanced anomalies:</p>
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">BCNF</h3>
+                        <p class="text-gray-700 text-sm">Every determinant is a candidate key (handles overlapping keys).</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">4NF</h3>
+                        <p class="text-gray-700 text-sm">No multi-valued dependencies (e.g., separate unrelated multi-value attributes).</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">5NF</h3>
+                        <p class="text-gray-700 text-sm">No join dependencies (full decomposition without loss).</p>
+                    </div>
+                </div>
+                <div class="code-block p-6">
+                    <pre class="text-sm overflow-x-auto">
+-- Example: Decomposing to BCNF
+-- Original: Teaches(Teacher, Subject, Student)
+-- BCNF: TeacherSubject(Teacher, Subject), SubjectStudent(Subject, Student)
+                    </pre>
+                </div>
+                <p class="text-gray-700 mt-4">In practice, 3NF is often sufficient; higher forms for complex schemas.</p>
+            </div>
+        </section>
+
+        <section id="slide7" class="slide flex items-center justify-center bg-gradient-to-br from-indigo-600 to-blue-600 px-6 py-20">
+            <div class="container mx-auto max-w-4xl text-center text-white" data-aos="fade-up">
+                <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-2xl p-8 md:p-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Key Takeaways</h2>
+                    <div class="flex flex-col space-y-6 mb-8 text-left max-w-2xl mx-auto">
+                        <div class="flex items-start">
+                            <div class="bg-white bg-opacity-20 p-2 rounded-full mr-4">
+                                <i data-feather="shield" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl mb-2">Data Integrity</h3>
+                                <p class="text-blue-100">Normal forms prevent anomalies by structuring dependencies properly.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-white bg-opacity-20 p-2 rounded-full mr-4">
+                                <i data-feather="database" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl mb-2">Progressive Refinement</h3>
+                                <p class="text-blue-100">Start with 1NF, aim for 3NF; balance with performance needs.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-white bg-opacity-20 p-2 rounded-full mr-4">
+                                <i data-feather="trending-up" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl mb-2">Practical Application</h3>
+                                <p class="text-blue-100">Essential for schema design in RDBMS like PostgreSQL and MySQL.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white bg-opacity-20 p-6 rounded-lg mb-8">
+                        <p class="text-xl italic mb-4">"Normalization is the cornerstone of efficient, anomaly-free databases."</p>
+                        <p class="text-lg">Ready to query? Next up: SQL basics.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="er-diagrams.html" class="px-6 py-3 bg-white text-indigo-600 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center">
+                            <i data-feather="arrow-left" class="mr-2 w-5 h-5"></i>
+                            <span>Previous: ER Diagrams</span>
+                        </a>
+                        <a href="Introduction to SQL.html" class="px-6 py-3 border border-white text-white rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-300 flex items-center justify-center">
+                            <i data-feather="arrow-right" class="mr-2 w-5 h-5"></i>
+                            <span>Next: SQL Intro</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide8" class="slide flex items-center justify-center bg-white px-6 py-20">
+            <div class="container mx-auto max-w-4xl" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">Resources</h2>
+                <div class="space-y-4">
+                    <a href="https://www.tutorialspoint.com/dbms/database_normalization.htm" class="flex items-center p-3 hover:bg-gray-50 rounded-lg transition">
+                        <div class="bg-gray-100 p-2 rounded-full mr-3">
+                            <i data-feather="book-open" class="text-gray-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">Tutorialspoint: Database Normalization</h3>
+                            <p class="text-sm text-gray-500">tutorialspoint.com/dbms/database_normalization.htm</p>
+                        </div>
+                        <div class="ml-auto">
+                            <i data-feather="external-link" class="text-gray-400"></i>
+                        </div>
+                    </a>
+                    <a href="https://en.wikipedia.org/wiki/Database_normalization" class="flex items-center p-3 hover:bg-gray-50 rounded-lg transition">
+                        <div class="bg-gray-100 p-2 rounded-full mr-3">
+                            <i data-feather="book-open" class="text-gray-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">Wikipedia: Database Normalization</h3>
+                            <p class="text-sm text-gray-500">en.wikipedia.org/wiki/Database_normalization</p>
+                        </div>
+                        <div class="ml-auto">
+                            <i data-feather="external-link" class="text-gray-400"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.geeksforgeeks.org/introduction-of-database-normalization/" class="flex items-center p-3 hover:bg-gray-50 rounded-lg transition">
+                        <div class="bg-gray-100 p-2 rounded-full mr-3">
+                            <i data-feather="book-open" class="text-gray-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">GeeksforGeeks: Normalization Intro</h3>
+                            <p class="text-sm text-gray-500">geeksforgeeks.org/introduction-of-database-normalization/</p>
+                        </div>
+                        <div class="ml-auto">
+                            <i data-feather="external-link" class="text-gray-400"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Initialize Vanta.js with fallback
+        try {
+            VANTA.NET({
+                el: "#vanta-bg",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: 0x3b82f6,
+                backgroundColor: 0xf9fafb,
+                points: 10.00,
+                maxDistance: 22.00,
+                spacing: 18.00
+            });
+        } catch (e) {
+            console.warn("Vanta.js failed to load: ", e);
+            document.getElementById('vanta-bg').style.background = '#f9fafb'; // Fallback background
+        }
+
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+        // Image enlargement and zoom functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const enlargeables = document.querySelectorAll('.enlargeable');
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            const closeBtn = document.getElementById('close-modal');
+            const zoomInBtn = document.getElementById('zoom-in');
+            const zoomOutBtn = document.getElementById('zoom-out');
+            let zoomLevel = 1;
+            let isDragging = false;
+            let startX, startY, translateX = 0, translateY = 0;
+
+            enlargeables.forEach(img => {
+                img.addEventListener('click', function() {
+                    modalImg.src = this.src;
+                    zoomLevel = 1;
+                    translateX = 0;
+                    translateY = 0;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                    modal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            zoomInBtn.addEventListener('click', function() {
+                if (zoomLevel < 2) {
+                    zoomLevel += 0.1;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            zoomOutBtn.addEventListener('click', function() {
+                if (zoomLevel > 0.5) {
+                    zoomLevel -= 0.1;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            modalImg.addEventListener('mousedown', function(e) {
+                if (zoomLevel > 1) {
+                    isDragging = true;
+                    startX = e.clientX - translateX;
+                    startY = e.clientY - translateY;
+                    modalImg.classList.add('dragging');
+                }
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    translateX = e.clientX - startX;
+                    translateY = e.clientY - startY;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                modalImg.classList.remove('dragging');
+            });
+
+            modalImg.addEventListener('touchstart', function(e) {
+                if (zoomLevel > 1) {
+                    isDragging = true;
+                    const touch = e.touches[0];
+                    startX = touch.clientX - translateX;
+                    startY = touch.clientY - translateY;
+                    modalImg.classList.add('dragging');
+                }
+            });
+
+            document.addEventListener('touchmove', function(e) {
+                if (isDragging) {
+                    const touch = e.touches[0];
+                    translateX = touch.clientX - startX;
+                    translateY = touch.clientY - startY;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            document.addEventListener('touchend', function() {
+                isDragging = false;
+                modalImg.classList.remove('dragging');
+            });
+
+            closeBtn.addEventListener('click', function() {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
