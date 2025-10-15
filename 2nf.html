@@ -168,29 +168,83 @@
             <div class="container mx-auto max-w-4xl">
                 <h2 class="text-3xl font-bold mb-8 text-gray-800">Second Normal Form (2NF)</h2>
                 <p class="text-lg text-gray-700 mb-6">2NF builds on 1NF by ensuring no partial dependencies: all non-key attributes must fully depend on the entire primary key, not just part of it (applies to tables with composite keys).</p>
-                <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
-                    <h3 class="font-bold text-lg mb-2">Example Issue</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr><th>OrderID</th><th>ProductID</th><th>ProductName</th><th>Quantity</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>1</td><td>101</td><td>Laptop</td><td>2</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="text-sm text-gray-600 mt-2">Partial dependency: ProductName depends only on ProductID, not the full key (OrderID, ProductID).</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="font-bold text-lg mb-2">2NF Solution</h3>
-                    <p class="text-gray-700">Split into Orders and Products tables to eliminate partial dependency.</p>
-                    <div class="grid md:grid-cols-2 gap-4 mt-4">
-                        <div class="code-block p-2">
-                            <pre class="text-xs">Products(ProductID, ProductName)</pre>
+                <div class="space-y-8">
+                    <!-- Example 1: Orders -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Example 1: Order Details</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>OrderID</th><th>ProductID</th><th>ProductName</th><th>Quantity</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>1</td><td>101</td><td>Laptop</td><td>2</td></tr>
+                                    <tr><td>2</td><td>102</td><td>Phone</td><td>1</td></tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="code-block p-2">
-                            <pre class="text-xs">Orders(OrderID, ProductID, Quantity)</pre>
+                        <p class="text-sm text-gray-600 mt-2">Partial dependency: ProductName depends only on ProductID, not the full key (OrderID, ProductID).</p>
+                        <h4 class="font-bold text-md mt-4 mb-2">2NF Solution</h4>
+                        <p class="text-gray-700">Split into Orders and Products tables to eliminate partial dependency.</p>
+                        <div class="grid md:grid-cols-2 gap-4 mt-4">
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Products(ProductID, ProductName)</pre>
+                            </div>
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Orders(OrderID, ProductID, Quantity)</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Example 2: Student Courses -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Example 2: Student Courses</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>StudentID</th><th>CourseID</th><th>CourseName</th><th>Grade</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>101</td><td>C1</td><td>Mathematics</td><td>A</td></tr>
+                                    <tr><td>102</td><td>C2</td><td>Physics</td><td>B</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Partial dependency: CourseName depends only on CourseID, not the full key (StudentID, CourseID).</p>
+                        <h4 class="font-bold text-md mt-4 mb-2">2NF Solution</h4>
+                        <p class="text-gray-700">Split into Courses and Enrollments tables.</p>
+                        <div class="grid md:grid-cols-2 gap-4 mt-4">
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Courses(CourseID, CourseName)</pre>
+                            </div>
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Enrollments(StudentID, CourseID, Grade)</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Example 3: Employee Projects -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Example 3: Employee Projects</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>EmployeeID</th><th>ProjectID</th><th>ProjectName</th><th>HoursWorked</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>E1</td><td>P1</td><td>Website Redesign</td><td>40</td></tr>
+                                    <tr><td>E2</td><td>P2</td><td>App Development</td><td>30</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Partial dependency: ProjectName depends only on ProjectID, not the full key (EmployeeID, ProjectID).</p>
+                        <h4 class="font-bold text-md mt-4 mb-2">2NF Solution</h4>
+                        <p class="text-gray-700">Split into Projects and Assignments tables.</p>
+                        <div class="grid md:grid-cols-2 gap-4 mt-4">
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Projects(ProjectID, ProjectName)</pre>
+                            </div>
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Assignments(EmployeeID, ProjectID, HoursWorked)</pre>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -202,7 +256,7 @@
                 <h2 class="text-3xl font-bold mb-8 text-gray-800">SQL for 2NF</h2>
                 <div class="code-block p-6 mb-6">
                     <pre class="text-sm overflow-x-auto">
--- SQL to create 2NF-compliant tables
+-- SQL for Example 1: Order Details
 CREATE TABLE Products (
     ProductID INT PRIMARY KEY,
     ProductName VARCHAR(50)
@@ -214,9 +268,35 @@ CREATE TABLE Orders (
     PRIMARY KEY (OrderID, ProductID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
+
+-- SQL for Example 2: Student Courses
+CREATE TABLE Courses (
+    CourseID VARCHAR(10) PRIMARY KEY,
+    CourseName VARCHAR(50)
+);
+CREATE TABLE Enrollments (
+    StudentID INT,
+    CourseID VARCHAR(10),
+    Grade CHAR(1),
+    PRIMARY KEY (StudentID, CourseID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+
+-- SQL for Example 3: Employee Projects
+CREATE TABLE Projects (
+    ProjectID VARCHAR(10) PRIMARY KEY,
+    ProjectName VARCHAR(50)
+);
+CREATE TABLE Assignments (
+    EmployeeID VARCHAR(10),
+    ProjectID VARCHAR(10),
+    HoursWorked INT,
+    PRIMARY KEY (EmployeeID, ProjectID),
+    FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID)
+);
                     </pre>
                 </div>
-                <p class="text-lg text-gray-700">This schema ensures no partial dependencies by separating product details into a dedicated table.</p>
+                <p class="text-lg text-gray-700">These schemas ensure no partial dependencies by separating entity-specific attributes into dedicated tables.</p>
             </div>
         </section>
 
@@ -353,7 +433,7 @@ CREATE TABLE Orders (
                 modalImg.classList.remove('dragging');
             });
 
-            modalImg.addEventListener('touchstart', function(e) {
+            document.addEventListener('touchstart', function(e) {
                 if (zoomLevel > 1) {
                     isDragging = true;
                     const touch = e.touches[0];
