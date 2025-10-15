@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Third Normal Form (3NF) - Sub-Page 3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons@4.28.0/dist/feather.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(to bottom right, #f9fafb, #e0e7ff);
+        }
+        .slide {
+            min-height: 100vh;
+            scroll-snap-align: start;
+        }
+        .code-block {
+            background-color: #1e293b;
+            color: #f8fafc;
+            border-radius: 0.5rem;
+            font-family: monospace;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f1f5f9;
+        }
+        #image-modal {
+            transition: opacity 0.3s ease;
+        }
+        #image-modal.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #modal-img {
+            transition: transform 0.2s ease;
+            image-rendering: optimizeQuality;
+            cursor: grab;
+        }
+        #modal-img.dragging {
+            cursor: grabbing;
+        }
+        .modal-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .animate-table.hidden {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .animate-table.show {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body class="text-gray-800 font-sans">
+    <!-- Modal for Enlarged Images -->
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="modal-container relative max-w-6xl max-h-screen overflow-auto">
+            <img id="modal-img" class="max-h-screen max-w-full mx-auto rounded-lg shadow-2xl" src="" alt="Enlarged Image">
+            <button id="close-modal" class="absolute -top-4 -right-4 bg-white rounded-full p-2 text-gray-800 text-xl font-bold hover:bg-gray-200 transition">×</button>
+            <div class="absolute top-4 left-4 flex space-x-2">
+                <button id="zoom-in" class="bg-white rounded-full p-2 text-gray-800 hover:bg-gray-200 transition">
+                    <i data-feather="zoom-in" class="w-5 h-5"></i>
+                </button>
+                <button id="zoom-out" class="bg-white rounded-full p-2 text-gray-800 hover:bg-gray-200 transition">
+                    <i data-feather="zoom-out" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i data-feather="database" class="text-blue-600"></i>
+                <span class="font-bold text-lg">Database Dynasty Explorer</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="DBMS-bloodlines.html" class="text-gray-600 hover:text-blue-600">Slide 1: DBMS Bloodlines</a>
+                <a href="SQL-evolution.html" class="text-gray-600 hover:text-blue-600">Slide 2: SQL Evolution</a>
+                <a href="NoSQL-evolution.html" class="text-gray-600 hover:text-blue-600">Slide 3: NoSQL Evolution</a>
+                <a href="relational-model.html" class="text-gray-600 hover:text-blue-600">Slide 4: Relational Model</a>
+                <a href="er-diagrams.html" class="text-gray-600 hover:text-blue-600">Slide 5: ER Diagrams</a>
+                <a href="normalization.html" class="text-blue-600 font-medium">Slide 6: Normalization</a>
+                <a href="Introduction to SQL.html" class="text-gray-600 hover:text-blue-600">Slide 7: SQL Intro</a>
+                <a href="1nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 1: 1NF</a>
+                <a href="2nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 2: 2NF</a>
+                <a href="3nf.html" class="text-blue-600 font-medium">Sub-Page 3: 3NF</a>
+                <a href="bcnf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 4: BCNF</a>
+                <a href="4nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 5: 4NF</a>
+                <a href="5nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 6: 5NF</a>
+            </div>
+            <button class="md:hidden focus:outline-none" id="menu-toggle">
+                <i data-feather="menu"></i>
+            </button>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-6 py-3 border-t">
+            <div class="flex flex-col space-y-3">
+                <a href="DBMS-bloodlines.html" class="text-gray-600 hover:text-blue-600">Slide 1: DBMS Bloodlines</a>
+                <a href="SQL-evolution.html" class="text-gray-600 hover:text-blue-600">Slide 2: SQL Evolution</a>
+                <a href="NoSQL-evolution.html" class="text-gray-600 hover:text-blue-600">Slide 3: NoSQL Evolution</a>
+                <a href="relational-model.html" class="text-gray-600 hover:text-blue-600">Slide 4: Relational Model</a>
+                <a href="er-diagrams.html" class="text-gray-600 hover:text-blue-600">Slide 5: ER Diagrams</a>
+                <a href="normalization.html" class="text-blue-600 font-medium">Slide 6: Normalization</a>
+                <a href="Introduction to SQL.html" class="text-gray-600 hover:text-blue-600">Slide 7: SQL Intro</a>
+                <a href="1nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 1: 1NF</a>
+                <a href="2nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 2: 2NF</a>
+                <a href="3nf.html" class="text-blue-600 font-medium">Sub-Page 3: 3NF</a>
+                <a href="bcnf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 4: BCNF</a>
+                <a href="4nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 5: 4NF</a>
+                <a href="5nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 6: 5NF</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Slide Content -->
+    <div class="snap-y snap-mandatory overflow-y-auto pt-20" style="height: calc(100vh - 80px);">
+        <section id="sub-slide1" class="slide flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 px-6 py-20">
+            <div class="container mx-auto max-w-4xl text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-800">Third Normal Form (3NF)</h1>
+                <p class="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">Sub-Page 3: Eliminating Transitive Dependencies</p>
+            </div>
+        </section>
+
+        <section id="sub-slide2" class="slide flex items-center justify-center bg-white px-6 py-20">
+            <div class="container mx-auto max-w-4xl">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">What is 3NF?</h2>
+                <p class="text-lg text-gray-700 mb-6">Third Normal Form (3NF) builds on 2NF by ensuring no transitive dependencies: non-key attributes must not depend on other non-key attributes. A table is in 3NF if it is in 2NF and every non-key attribute is directly dependent on the primary key.</p>
+                <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-8">
+                    <p class="text-lg text-gray-700">Transitive dependency: A → B, B → C implies A → C, where C is a non-key attribute depending on another non-key attribute B.</p>
+                </div>
+                <button onclick="animate3NF()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Show Example</button>
+                <div id="3nf-example" class="hidden mt-4 animate-table">
+                    <p class="text-gray-700 mb-2">Example Table (in 2NF):</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>StudentID</th><th>Name</th><th>Department</th><th>DeptHead</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>101</td><td>Alice</td><td>Computer Science</td><td>Dr. Smith</td></tr>
+                                <tr><td>102</td><td>Bob</td><td>Mathematics</td><td>Dr. Jones</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-sm text-gray-600">Transitive dependency: StudentID → Department, Department → DeptHead, so StudentID → DeptHead indirectly.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sub-slide3" class="slide flex items-center justify-center bg-gray-50 px-6 py-20">
+            <div class="container mx-auto max-w-4xl">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">3NF Examples</h2>
+                <div class="space-y-8">
+                    <!-- Example 1: Student Department -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Example 1: Student Department</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>StudentID</th><th>Name</th><th>Department</th><th>DeptHead</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>101</td><td>Alice</td><td>Computer Science</td><td>Dr. Smith</td></tr>
+                                    <tr><td>102</td><td>Bob</td><td>Mathematics</td><td>Dr. Jones</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Transitive dependency: Department → DeptHead, not directly on StudentID.</p>
+                        <h4 class="font-bold text-md mt-4 mb-2">3NF Solution</h4>
+                        <p class="text-gray-700">Split into Students and Departments tables.</p>
+                        <div class="grid md:grid-cols-2 gap-4 mt-4">
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Students(StudentID, Name, Department)</pre>
+                            </div>
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Departments(Department, DeptHead)</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Example 2: Employee Office -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Example 2: Employee Office</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>EmployeeID</th><th>Name</th><th>OfficeID</th><th>OfficeLocation</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>E1</td><td>John</td><td>O1</td><td>Building A</td></tr>
+                                    <tr><td>E2</td><td>Jane</td><td>O2</td><td>Building B</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Transitive dependency: OfficeID → OfficeLocation, not directly on EmployeeID.</p>
+                        <h4 class="font-bold text-md mt-4 mb-2">3NF Solution</h4>
+                        <p class="text-gray-700">Split into Employees and Offices tables.</p>
+                        <div class="grid md:grid-cols-2 gap-4 mt-4">
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Employees(EmployeeID, Name, OfficeID)</pre>
+                            </div>
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Offices(OfficeID, OfficeLocation)</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sub-slide4" class="slide flex items-center justify-center bg-white px-6 py-20">
+            <div class="container mx-auto max-w-4xl">
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">SQL for 3NF</h2>
+                <div class="code-block p-6 mb-6">
+                    <pre class="text-sm overflow-x-auto">
+-- SQL for Example 1: Student Department
+CREATE TABLE Departments (
+    Department VARCHAR(50) PRIMARY KEY,
+    DeptHead VARCHAR(50)
+);
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Department VARCHAR(50),
+    FOREIGN KEY (Department) REFERENCES Departments(Department)
+);
+
+-- SQL for Example 2: Employee Office
+CREATE TABLE Offices (
+    OfficeID VARCHAR(10) PRIMARY KEY,
+    OfficeLocation VARCHAR(50)
+);
+CREATE TABLE Employees (
+    EmployeeID VARCHAR(10) PRIMARY KEY,
+    Name VARCHAR(50),
+    OfficeID VARCHAR(10),
+    FOREIGN KEY (OfficeID) REFERENCES Offices(OfficeID)
+);
+                    </pre>
+                </div>
+                <p class="text-lg text-gray-700">These schemas eliminate transitive dependencies by isolating non-key attributes into separate tables with appropriate foreign key constraints.</p>
+            </div>
+        </section>
+
+        <section id="sub-slide5" class="slide flex items-center justify-center bg-gradient-to-br from-indigo-600 to-blue-600 px-6 py-20">
+            <div class="container mx-auto max-w-4xl text-center text-white">
+                <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-2xl p-8 md:p-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Key Takeaways</h2>
+                    <div class="flex flex-col space-y-6 mb-8 text-left max-w-2xl mx-auto">
+                        <div class="flex items-start">
+                            <div class="bg-white bg-opacity-20 p-2 rounded-full mr-4">
+                                <i data-feather="link" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl mb-2">Transitive Dependency</h3>
+                                <p class="text-blue-100">3NF removes dependencies where non-key attributes depend on other non-key attributes.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-white bg-opacity-20 p-2 rounded-full mr-4">
+                                <i data-feather="check-circle" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl mb-2">Direct Dependency</h3>
+                                <p class="text-blue-100">Non-key attributes must depend only on the primary key.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-white bg-opacity-20 p-2 rounded-full mr-4">
+                                <i data-feather="arrow-right" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl mb-2">Foundation for BCNF</h3>
+                                <p class="text-blue-100">3NF sets the stage for stricter normalization rules like BCNF.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="2nf.html" class="px-6 py-3 bg-white text-indigo-600 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center">
+                            <i data-feather="arrow-left" class="mr-2 w-5 h-5"></i>
+                            <span>Back to 2NF</span>
+                        </a>
+                        <a href="bcnf.html" class="px-6 py-3 border border-white text-white rounded-lg hover:bg-white hover:bg-opacity-10 transition duration-300 flex items-center justify-center">
+                            <i data-feather="arrow-right" class="mr-2 w-5 h-5"></i>
+                            <span>Next: BCNF</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Initialize Feather Icons
+        try {
+            feather.replace();
+        } catch (e) {
+            console.warn("Feather Icons failed to load: ", e);
+        }
+
+        // Mobile menu toggle
+        try {
+            document.getElementById('menu-toggle').addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                });
+            });
+        } catch (e) {
+            console.warn("Mobile menu functionality failed: ", e);
+        }
+
+        // Image enlargement and zoom functionality
+        try {
+            const enlargeables = document.querySelectorAll('.enlargeable');
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            const closeBtn = document.getElementById('close-modal');
+            const zoomInBtn = document.getElementById('zoom-in');
+            const zoomOutBtn = document.getElementById('zoom-out');
+            let zoomLevel = 1;
+            let isDragging = false;
+            let startX, startY, translateX = 0, translateY = 0;
+
+            enlargeables.forEach(img => {
+                img.addEventListener('click', function() {
+                    modalImg.src = this.src;
+                    zoomLevel = 1;
+                    translateX = 0;
+                    translateY = 0;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                    modal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            zoomInBtn.addEventListener('click', function() {
+                if (zoomLevel < 2) {
+                    zoomLevel += 0.1;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            zoomOutBtn.addEventListener('click', function() {
+                if (zoomLevel > 0.5) {
+                    zoomLevel -= 0.1;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            modalImg.addEventListener('mousedown', function(e) {
+                if (zoomLevel > 1) {
+                    isDragging = true;
+                    startX = e.clientX - translateX;
+                    startY = e.clientY - translateY;
+                    modalImg.classList.add('dragging');
+                }
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    translateX = e.clientX - startX;
+                    translateY = e.clientY - startY;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                modalImg.classList.remove('dragging');
+            });
+
+            modalImg.addEventListener('touchstart', function(e) {
+                if (zoomLevel > 1) {
+                    isDragging = true;
+                    const touch = e.touches[0];
+                    startX = touch.clientX - translateX;
+                    startY = touch.clientY - translateY;
+                    modalImg.classList.add('dragging');
+                }
+            });
+
+            document.addEventListener('touchmove', function(e) {
+                if (isDragging) {
+                    const touch = e.touches[0];
+                    translateX = touch.clientX - startX;
+                    translateY = touch.clientY - startY;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            document.addEventListener('touchend', function() {
+                isDragging = false;
+                modalImg.classList.remove('dragging');
+            });
+
+            closeBtn.addEventListener('click', function() {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        } catch (e) {
+            console.warn("Image modal functionality failed: ", e);
+        }
+
+        // 3NF Animation
+        try {
+            function animate3NF() {
+                document.getElementById('3nf-example').classList.remove('hidden');
+                document.getElementById('3nf-example').classList.add('show');
+            }
+        } catch (e) {
+            console.warn("3NF animation failed: ", e);
+        }
+    </script>
+</body>
+</html>
