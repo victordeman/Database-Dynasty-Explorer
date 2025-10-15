@@ -90,6 +90,12 @@
                 <a href="er-diagrams.html" class="text-gray-600 hover:text-blue-600">Slide 5: ER Diagrams</a>
                 <a href="normalization.html" class="text-blue-600 font-medium">Slide 6: Normalization</a>
                 <a href="Introduction to SQL.html" class="text-gray-600 hover:text-blue-600">Slide 7: SQL Intro</a>
+                <a href="1nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 1: 1NF</a>
+                <a href="2nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 2: 2NF</a>
+                <a href="3nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 3: 3NF</a>
+                <a href="bcnf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 4: BCNF</a>
+                <a href="4nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 5: 4NF</a>
+                <a href="5nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 6: 5NF</a>
             </div>
             <button class="md:hidden focus:outline-none" id="menu-toggle">
                 <i data-feather="menu"></i>
@@ -105,6 +111,12 @@
                 <a href="er-diagrams.html" class="text-gray-600 hover:text-blue-600">Slide 5: ER Diagrams</a>
                 <a href="normalization.html" class="text-blue-600 font-medium">Slide 6: Normalization</a>
                 <a href="Introduction to SQL.html" class="text-gray-600 hover:text-blue-600">Slide 7: SQL Intro</a>
+                <a href="1nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 1: 1NF</a>
+                <a href="2nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 2: 2NF</a>
+                <a href="3nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 3: 3NF</a>
+                <a href="bcnf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 4: BCNF</a>
+                <a href="4nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 5: 4NF</a>
+                <a href="5nf.html" class="text-gray-600 hover:text-blue-600">Sub-Page 6: 5NF</a>
             </div>
         </div>
     </nav>
@@ -141,8 +153,8 @@
                         </ul>
                     </div>
                     <div class="bg-purple-50 p-4 rounded-lg">
-                        <h3 class="font-bold text-lg mb-2 text-purple-800">Normal Forms Hierarchy</h3>
-                        <p class="text-gray-700">1NF → 2NF → 3NF → BCNF → 4NF → 5NF (Higher forms address specific anomalies)</p>
+                        <h3 class="font-bold text-lg mb-2 text-purple-800">Normal Forms Overview</h3>
+                        <p class="text-gray-700">Explore each normal form in detail through dedicated sub-pages.</p>
                     </div>
                 </div>
             </div>
@@ -150,157 +162,51 @@
 
         <section id="slide3" class="slide flex items-center justify-center bg-gray-50 px-6 py-20">
             <div class="container mx-auto max-w-4xl">
-                <h2 class="text-3xl font-bold mb-8 text-gray-800">First Normal Form (1NF)</h2>
-                <p class="text-lg text-gray-700 mb-6">Atomic values: Each cell contains a single value, no repeating groups, and a primary key.</p>
-                <div class="grid md:grid-cols-2 gap-8 mb-8">
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="font-bold text-lg mb-2">Unnormalized Example</h3>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr><th>Student ID</th><th>Name</th><th>Courses</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>101</td><td>Alice</td><td>Math, CS101</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <p class="text-sm text-gray-600 mt-2">Issue: Multi-valued attribute in "Courses".</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="font-bold text-lg mb-2">1NF Normalized</h3>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr><th>Student ID</th><th>Name</th><th>Course</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>101</td><td>Alice</td><td>Math</td></tr>
-                                    <tr><td>101</td><td>Alice</td><td>CS101</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <p class="text-sm text-gray-600 mt-2">Solution: Separate rows for each course; add primary key (composite if needed).</p>
-                    </div>
-                </div>
-                <div class="code-block p-4">
-                    <pre class="text-sm overflow-x-auto">
--- SQL for 1NF
-CREATE TABLE StudentCourses (
-    StudentID INT,
-    Name VARCHAR(50),
-    Course VARCHAR(50),
-    PRIMARY KEY (StudentID, Course)
-);
-                    </pre>
-                </div>
-            </div>
-        </section>
-
-        <section id="slide4" class="slide flex items-center justify-center bg-white px-6 py-20">
-            <div class="container mx-auto max-w-4xl">
-                <h2 class="text-3xl font-bold mb-8 text-gray-800">Second Normal Form (2NF)</h2>
-                <p class="text-lg text-gray-700 mb-6">1NF + No partial dependencies: All non-key attributes fully depend on the entire primary key (eliminates partial dependency in composite keys).</p>
-                <div class="grid md:grid-cols-2 gap-8 mb-8">
-                    <div>
-                        <img class="enlargeable rounded-lg shadow-md w-full cursor-pointer hover:opacity-80 transition-opacity" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/2nf.svg/800px-2nf.svg.png" alt="2NF Example" title="Click to enlarge">
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="font-bold text-lg mb-2">Example Issue</h3>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr><th>OrderID</th><th>ProductID</th><th>ProductName</th><th>Quantity</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>1</td><td>101</td><td>Laptop</td><td>2</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <p class="text-sm text-gray-600 mt-2">Partial dependency: ProductName depends only on ProductID, not full key (OrderID, ProductID).</p>
-                    </div>
-                </div>
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">Normal Forms</h2>
                 <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="font-bold text-lg mb-2">2NF Solution</h3>
-                    <p class="text-gray-700">Split into Orders and Products tables.</p>
-                    <div class="grid md:grid-cols-2 gap-4 mt-4">
-                        <div class="code-block p-2">
-                            <pre class="text-xs">Products(ProductID, ProductName)</pre>
-                        </div>
-                        <div class="code-block p-2">
-                            <pre class="text-xs">Orders(OrderID, ProductID, Quantity)</pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="slide5" class="slide flex items-center justify-center bg-gray-50 px-6 py-20">
-            <div class="container mx-auto max-w-4xl">
-                <h2 class="text-3xl font-bold mb-8 text-gray-800">Third Normal Form (3NF)</h2>
-                <p class="text-lg text-gray-700 mb-6">2NF + No transitive dependencies: Non-key attributes depend only on the primary key, not other non-key attributes.</p>
-                <div class="grid md:grid-cols-2 gap-8 mb-8">
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="font-bold text-lg mb-2">Example Issue</h3>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr><th>StudentID</th><th>Name</th><th>Advisor</th><th>AdvisorOffice</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>101</td><td>Alice</td><td>Dr. Smith</td><td>Room 101</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <p class="text-sm text-gray-600 mt-2">Transitive: AdvisorOffice depends on Advisor, not directly on StudentID.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="font-bold text-lg mb-2">3NF Solution</h3>
-                        <p class="text-gray-700">Split into Students and Advisors tables.</p>
-                        <div class="grid md:grid-cols-2 gap-4 mt-4">
-                            <div class="code-block p-2">
-                                <pre class="text-xs">Advisors(Advisor, Office)</pre>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-start">
+                            <i data-feather="chevron-right" class="text-blue-600 mr-2 mt-1"></i>
+                            <div>
+                                <a href="1nf.html" class="text-blue-600 hover:underline">First Normal Form (1NF)</a>: Ensures atomicity of values and no repeating groups.
                             </div>
-                            <div class="code-block p-2">
-                                <pre class="text-xs">Students(StudentID, Name, Advisor)</pre>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-feather="chevron-right" class="text-blue-600 mr-2 mt-1"></i>
+                            <div>
+                                <a href="2nf.html" class="text-blue-600 hover:underline">Functional Dependency</a>: Key concept for understanding dependencies in normalization.
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-feather="chevron-right" class="text-blue-600 mr-2 mt-1"></i>
+                            <div>
+                                <a href="2nf.html" class="text-blue-600 hover:underline">Second Normal Form (2NF)</a>: Removes partial dependencies (applies to tables with composite keys).
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-feather="chevron-right" class="text-blue-600 mr-2 mt-1"></i>
+                            <div>
+                                <a href="3nf.html" class="text-blue-600 hover:underline">Third Normal Form (3NF)</a>: Ensures no transitive dependencies.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-feather="chevron-right" class="text-blue-600 mr-2 mt-1"></i>
+                            <div>
+                                <a href="bcnf.html" class="text-blue-600 hover:underline">Boyce-Codd Normal Form (BCNF)</a>: A stronger version of 3NF, ensuring every determinant is a candidate key.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-feather="chevron-right" class="text-blue-600 mr-2 mt-1"></i>
+                            <div>
+                                <a href="4nf.html" class="text-blue-600 hover:underline">Higher Normal Forms (4NF, 5NF)</a>: These deal with more advanced forms of redundancy, such as multivalued dependencies (4NF) and join dependencies (5NF), though they are rarely encountered in most practical applications.
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <img class="enlargeable rounded-lg shadow-md w-full cursor-pointer hover:opacity-80 transition-opacity" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/3nf.svg/800px-3nf.svg.png" alt="3NF Example" title="Click to enlarge">
             </div>
         </section>
 
-        <section id="slide6" class="slide flex items-center justify-center bg-white px-6 py-20">
-            <div class="container mx-auto max-w-4xl">
-                <h2 class="text-3xl font-bold mb-8 text-gray-800">Higher Normal Forms (BCNF, 4NF, 5NF)</h2>
-                <p class="text-lg text-gray-700 mb-6">Beyond 3NF for advanced anomalies:</p>
-                <div class="grid md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                        <h3 class="font-bold text-lg mb-2">BCNF</h3>
-                        <p class="text-gray-700 text-sm">Every determinant is a candidate key (handles overlapping keys).</p>
-                    </div>
-                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                        <h3 class="font-bold text-lg mb-2">4NF</h3>
-                        <p class="text-gray-700 text-sm">No multi-valued dependencies (e.g., separate unrelated multi-value attributes).</p>
-                    </div>
-                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                        <h3 class="font-bold text-lg mb-2">5NF</h3>
-                        <p class="text-gray-700 text-sm">No join dependencies (full decomposition without loss).</p>
-                    </div>
-                </div>
-                <div class="code-block p-6">
-                    <pre class="text-sm overflow-x-auto">
--- Example: Decomposing to BCNF
--- Original: Teaches(Teacher, Subject, Student)
--- BCNF: TeacherSubject(Teacher, Subject), SubjectStudent(Subject, Student)
-                    </pre>
-                </div>
-                <p class="text-gray-700 mt-4">In practice, 3NF is often sufficient; higher forms for complex schemas.</p>
-            </div>
-        </section>
-
-        <section id="slide7" class="slide flex items-center justify-center bg-gradient-to-br from-indigo-600 to-blue-600 px-6 py-20">
+        <section id="slide4" class="slide flex items-center justify-center bg-gradient-to-br from-indigo-600 to-blue-600 px-6 py-20">
             <div class="container mx-auto max-w-4xl text-center text-white">
                 <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-2xl p-8 md:p-12">
                     <h2 class="text-3xl md:text-4xl font-bold mb-6">Key Takeaways</h2>
@@ -351,7 +257,7 @@ CREATE TABLE StudentCourses (
             </div>
         </section>
 
-        <section id="slide8" class="slide flex items-center justify-center bg-white px-6 py-20">
+        <section id="slide5" class="slide flex items-center justify-center bg-white px-6 py-20">
             <div class="container mx-auto max-w-4xl">
                 <h2 class="text-3xl font-bold mb-8 text-gray-800">Resources</h2>
                 <div class="space-y-4">
@@ -422,112 +328,110 @@ CREATE TABLE StudentCourses (
         }
 
         // Image enlargement and zoom functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            try {
-                const enlargeables = document.querySelectorAll('.enlargeable');
-                const modal = document.getElementById('image-modal');
-                const modalImg = document.getElementById('modal-img');
-                const closeBtn = document.getElementById('close-modal');
-                const zoomInBtn = document.getElementById('zoom-in');
-                const zoomOutBtn = document.getElementById('zoom-out');
-                let zoomLevel = 1;
-                let isDragging = false;
-                let startX, startY, translateX = 0, translateY = 0;
+        try {
+            const enlargeables = document.querySelectorAll('.enlargeable');
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            const closeBtn = document.getElementById('close-modal');
+            const zoomInBtn = document.getElementById('zoom-in');
+            const zoomOutBtn = document.getElementById('zoom-out');
+            let zoomLevel = 1;
+            let isDragging = false;
+            let startX, startY, translateX = 0, translateY = 0;
 
-                enlargeables.forEach(img => {
-                    img.addEventListener('click', function() {
-                        modalImg.src = this.src;
-                        zoomLevel = 1;
-                        translateX = 0;
-                        translateY = 0;
-                        modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
-                        modal.classList.remove('hidden');
-                        document.body.style.overflow = 'hidden';
-                    });
+            enlargeables.forEach(img => {
+                img.addEventListener('click', function() {
+                    modalImg.src = this.src;
+                    zoomLevel = 1;
+                    translateX = 0;
+                    translateY = 0;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                    modal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
                 });
+            });
 
-                zoomInBtn.addEventListener('click', function() {
-                    if (zoomLevel < 2) {
-                        zoomLevel += 0.1;
-                        modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
-                    }
-                });
+            zoomInBtn.addEventListener('click', function() {
+                if (zoomLevel < 2) {
+                    zoomLevel += 0.1;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
 
-                zoomOutBtn.addEventListener('click', function() {
-                    if (zoomLevel > 0.5) {
-                        zoomLevel -= 0.1;
-                        modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
-                    }
-                });
+            zoomOutBtn.addEventListener('click', function() {
+                if (zoomLevel > 0.5) {
+                    zoomLevel -= 0.1;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
 
-                modalImg.addEventListener('mousedown', function(e) {
-                    if (zoomLevel > 1) {
-                        isDragging = true;
-                        startX = e.clientX - translateX;
-                        startY = e.clientY - translateY;
-                        modalImg.classList.add('dragging');
-                    }
-                });
+            modalImg.addEventListener('mousedown', function(e) {
+                if (zoomLevel > 1) {
+                    isDragging = true;
+                    startX = e.clientX - translateX;
+                    startY = e.clientY - translateY;
+                    modalImg.classList.add('dragging');
+                }
+            });
 
-                document.addEventListener('mousemove', function(e) {
-                    if (isDragging) {
-                        translateX = e.clientX - startX;
-                        translateY = e.clientY - startY;
-                        modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
-                    }
-                });
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    translateX = e.clientX - startX;
+                    translateY = e.clientY - startY;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
 
-                document.addEventListener('mouseup', function() {
-                    isDragging = false;
-                    modalImg.classList.remove('dragging');
-                });
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                modalImg.classList.remove('dragging');
+            });
 
-                modalImg.addEventListener('touchstart', function(e) {
-                    if (zoomLevel > 1) {
-                        isDragging = true;
-                        const touch = e.touches[0];
-                        startX = touch.clientX - translateX;
-                        startY = touch.clientY - translateY;
-                        modalImg.classList.add('dragging');
-                    }
-                });
+            modalImg.addEventListener('touchstart', function(e) {
+                if (zoomLevel > 1) {
+                    isDragging = true;
+                    const touch = e.touches[0];
+                    startX = touch.clientX - translateX;
+                    startY = touch.clientY - translateY;
+                    modalImg.classList.add('dragging');
+                }
+            });
 
-                document.addEventListener('touchmove', function(e) {
-                    if (isDragging) {
-                        const touch = e.touches[0];
-                        translateX = touch.clientX - startX;
-                        translateY = touch.clientY - startY;
-                        modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
-                    }
-                });
+            document.addEventListener('touchmove', function(e) {
+                if (isDragging) {
+                    const touch = e.touches[0];
+                    translateX = touch.clientX - startX;
+                    translateY = touch.clientY - startY;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
 
-                document.addEventListener('touchend', function() {
-                    isDragging = false;
-                    modalImg.classList.remove('dragging');
-                });
+            document.addEventListener('touchend', function() {
+                isDragging = false;
+                modalImg.classList.remove('dragging');
+            });
 
-                closeBtn.addEventListener('click', function() {
+            closeBtn.addEventListener('click', function() {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
                     modal.classList.add('hidden');
                     document.body.style.overflow = 'auto';
-                });
+                }
+            });
 
-                modal.addEventListener('click', function(e) {
-                    if (e.target === modal) {
-                        modal.classList.add('hidden');
-                        document.body.style.overflow = 'auto';
-                    }
-                });
-
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                        modal.classList.add('hidden');
-                        document.body.style.overflow = 'auto';
-                    }
-                });
-            } catch (e) {
-                console.warn("Image modal functionality failed: ", e);
-            }
-        });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        } catch (e) {
+            console.warn("Image modal functionality failed: ", e);
+        }
     </script>
 </body>
 </html>
