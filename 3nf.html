@@ -166,11 +166,11 @@
 
         <section id="sub-slide3" class="slide flex items-center justify-center bg-gray-50 px-6 py-20">
             <div class="container mx-auto max-w-4xl">
-                <h2 class="text-3xl font-bold mb-8 text-gray-800">3NF Examples</h2>
+                <h2 class="text-3xl font-bold mb-8 text-gray-800">3NF Real-World Scenarios</h2>
                 <div class="space-y-8">
-                    <!-- Example 1: Student Department -->
+                    <!-- Scenario 1: Student Department -->
                     <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="font-bold text-lg mb-2">Example 1: Student Department</h3>
+                        <h3 class="font-bold text-lg mb-2">Scenario 1: University Student Records</h3>
                         <div class="table-container">
                             <table>
                                 <thead>
@@ -182,9 +182,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <p class="text-sm text-gray-600 mt-2">Transitive dependency: Department → DeptHead, not directly on StudentID.</p>
+                        <p class="text-sm text-gray-600 mt-2">Transitive dependency: Department → DeptHead, not directly on StudentID. Updating DeptHead requires updating multiple rows, risking inconsistencies.</p>
                         <h4 class="font-bold text-md mt-4 mb-2">3NF Solution</h4>
-                        <p class="text-gray-700">Split into Students and Departments tables.</p>
+                        <p class="text-gray-700">Split into Students and Departments tables to store department information once.</p>
                         <div class="grid md:grid-cols-2 gap-4 mt-4">
                             <div class="code-block p-2">
                                 <pre class="text-xs">Students(StudentID, Name, Department)</pre>
@@ -194,9 +194,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Example 2: Employee Office -->
+                    <!-- Scenario 2: Employee Office -->
                     <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="font-bold text-lg mb-2">Example 2: Employee Office</h3>
+                        <h3 class="font-bold text-lg mb-2">Scenario 2: Corporate Employee Assignments</h3>
                         <div class="table-container">
                             <table>
                                 <thead>
@@ -208,15 +208,73 @@
                                 </tbody>
                             </table>
                         </div>
-                        <p class="text-sm text-gray-600 mt-2">Transitive dependency: OfficeID → OfficeLocation, not directly on EmployeeID.</p>
+                        <p class="text-sm text-gray-600 mt-2">Transitive dependency: OfficeID → OfficeLocation, not directly on EmployeeID. OfficeLocation changes require multiple updates.</p>
                         <h4 class="font-bold text-md mt-4 mb-2">3NF Solution</h4>
-                        <p class="text-gray-700">Split into Employees and Offices tables.</p>
+                        <p class="text-gray-700">Split into Employees and Offices tables to centralize office details.</p>
                         <div class="grid md:grid-cols-2 gap-4 mt-4">
                             <div class="code-block p-2">
                                 <pre class="text-xs">Employees(EmployeeID, Name, OfficeID)</pre>
                             </div>
                             <div class="code-block p-2">
                                 <pre class="text-xs">Offices(OfficeID, OfficeLocation)</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Scenario 3: Customer Orders -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Scenario 3: E-Commerce Customer Orders</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>OrderID</th><th>CustomerID</th><th>CustomerName</th><th>Region</th><th>RegionManager</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>1</td><td>C101</td><td>Alice</td><td>East</td><td>Mgr. Lee</td></tr>
+                                    <tr><td>2</td><td>C102</td><td>Bob</td><td>West</td><td>Mgr. Smith</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Transitive dependency: Region → RegionManager, not directly on OrderID. Updating RegionManager requires multiple row updates.</p>
+                        <h4 class="font-bold text-md mt-4 mb-2">3NF Solution</h4>
+                        <p class="text-gray-700">Split into Orders, Customers, and Regions tables.</p>
+                        <div class="grid md:grid-cols-2 gap-4 mt-4">
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Orders(OrderID, CustomerID)</pre>
+                            </div>
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Customers(CustomerID, CustomerName, Region)</pre>
+                            </div>
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Regions(Region, RegionManager)</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Scenario 4: Library Books -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-lg mb-2">Scenario 4: Library Book Loans</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>LoanID</th><th>BookID</th><th>Title</th><th>Publisher</th><th>PublisherCity</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>L1</td><td>B101</td><td>Database Systems</td><td>Pearson</td><td>New York</td></tr>
+                                    <tr><td>L2</td><td>B102</td><td>SQL Guide</td><td>O'Reilly</td><td>Boston</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Transitive dependency: Publisher → PublisherCity, not directly on LoanID. PublisherCity changes require multiple updates.</p>
+                        <h4 class="font-bold text-md mt-4 mb-2">3NF Solution</h4>
+                        <p class="text-gray-700">Split into Loans, Books, and Publishers tables.</p>
+                        <div class="grid md:grid-cols-2 gap-4 mt-4">
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Loans(LoanID, BookID)</pre>
+                            </div>
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Books(BookID, Title, Publisher)</pre>
+                            </div>
+                            <div class="code-block p-2">
+                                <pre class="text-xs">Publishers(Publisher, PublisherCity)</pre>
                             </div>
                         </div>
                     </div>
@@ -229,7 +287,7 @@
                 <h2 class="text-3xl font-bold mb-8 text-gray-800">SQL for 3NF</h2>
                 <div class="code-block p-6 mb-6">
                     <pre class="text-sm overflow-x-auto">
--- SQL for Example 1: Student Department
+-- SQL for Scenario 1: University Student Records
 CREATE TABLE Departments (
     Department VARCHAR(50) PRIMARY KEY,
     DeptHead VARCHAR(50)
@@ -241,7 +299,7 @@ CREATE TABLE Students (
     FOREIGN KEY (Department) REFERENCES Departments(Department)
 );
 
--- SQL for Example 2: Employee Office
+-- SQL for Scenario 2: Corporate Employee Assignments
 CREATE TABLE Offices (
     OfficeID VARCHAR(10) PRIMARY KEY,
     OfficeLocation VARCHAR(50)
@@ -251,6 +309,40 @@ CREATE TABLE Employees (
     Name VARCHAR(50),
     OfficeID VARCHAR(10),
     FOREIGN KEY (OfficeID) REFERENCES Offices(OfficeID)
+);
+
+-- SQL for Scenario 3: E-Commerce Customer Orders
+CREATE TABLE Regions (
+    Region VARCHAR(50) PRIMARY KEY,
+    RegionManager VARCHAR(50)
+);
+CREATE TABLE Customers (
+    CustomerID VARCHAR(10) PRIMARY KEY,
+    CustomerName VARCHAR(50),
+    Region VARCHAR(50),
+    FOREIGN KEY (Region) REFERENCES Regions(Region)
+);
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID VARCHAR(10),
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+-- SQL for Scenario 4: Library Book Loans
+CREATE TABLE Publishers (
+    Publisher VARCHAR(50) PRIMARY KEY,
+    PublisherCity VARCHAR(50)
+);
+CREATE TABLE Books (
+    BookID VARCHAR(10) PRIMARY KEY,
+    Title VARCHAR(100),
+    Publisher VARCHAR(50),
+    FOREIGN KEY (Publisher) REFERENCES Publishers(Publisher)
+);
+CREATE TABLE Loans (
+    LoanID VARCHAR(10) PRIMARY KEY,
+    BookID VARCHAR(10),
+    FOREIGN KEY (BookID) REFERENCES Books(BookID)
 );
                     </pre>
                 </div>
@@ -353,6 +445,20 @@ CREATE TABLE Employees (
                     modal.classList.remove('hidden');
                     document.body.style.overflow = 'hidden';
                 });
+            });
+
+            zoomInBtn.addEventListener('click', function() {
+                if (zoomLevel < 2) {
+                    zoomLevel += 0.1;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+
+            zoomOutBtn.addEventListener('click', function() {
+                if (zoomLevel > 0.5) {
+                    zoomLevel -= 0.1;
+                    modalImg.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+                }
             });
 
             zoomInBtn.addEventListener('click', function() {
